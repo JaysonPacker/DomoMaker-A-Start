@@ -6,7 +6,10 @@ const loginPage = (req, res) => res.render("login");
 
 const signupPage = (req, res) => res.render("signup");
 
-const logout = (req, res) => res.redirect("/"); // Redirect to login page on logout
+const logout = (req, res) => {
+  req.session.destroy();
+  res.redirect("/");
+}; // Redirect to login page on logout
 
 const login = (req, res) => {
   const username = `${req.body.username}`;
@@ -20,7 +23,7 @@ const login = (req, res) => {
       console.log("Authentication failed:");
       return res.status(401).json({ error: "Invalid username or password!" });
     }
-
+    req.session.account = Account.toAPI(account);
     return res.json({ redirect: "/maker" }); // Redirect to login page on logout
   });
 };
@@ -44,6 +47,7 @@ const signup = async (req, res) => {
       password: hash,
     });
     await newAccount.save();
+    req.session.account = Account.toAPI(newAccount);
     return res.json({ redirect: "/maker" }); // Redirect to maker page on successful signup
   } catch (err) {
     if (err.code === 11000) {
