@@ -1,5 +1,6 @@
 const models = require("../models");
-const Domo = models.Domo;
+
+const { Domo } = models;
 
 const makerPage = async (req, res) => {
   try {
@@ -12,7 +13,6 @@ const makerPage = async (req, res) => {
       .status(500)
       .json({ error: "An error occurred while loading the maker page." });
   }
-  res.render("app");
 };
 
 const makeDomo = async (req, res) => {
@@ -31,7 +31,7 @@ const makeDomo = async (req, res) => {
     await newDomo.save();
     return res.json({ redirect: "/maker" });
   } catch (err) {
-    console.log("error" + err);
+    console.log(`error${err}`);
     if (err.name === 11000) {
       return res.status(400).json({ error: "Domo already exists" });
     }

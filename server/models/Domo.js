@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const _ = require("underscore");
+const mongoose = require('mongoose');
+const _ = require('underscore');
 
 const setName = (name) => _.escape(name).trim();
 
@@ -18,7 +18,7 @@ const DomoSchema = new mongoose.Schema({
   owner: {
     type: mongoose.Schema.ObjectId,
     required: true,
-    ref: "Account",
+    ref: 'Account',
   },
   createdDate: {
     type: Date,
@@ -31,5 +31,6 @@ DomoSchema.statics.toAPI = (doc) => ({
   age: doc.age,
 });
 
-const DomoModel = mongoose.model("Domo", DomoSchema);
+
+const DomoModel = mongoose.model('Domo', DomoSchema);
 module.exports = DomoModel;
